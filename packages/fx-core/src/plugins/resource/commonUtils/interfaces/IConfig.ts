@@ -5,10 +5,8 @@ import { ConfigValue } from "@microsoft/teamsfx-api";
 
 export interface IConfigValue {
   value?: ConfigValue,
-  remotePlugin?: string,
-  remoteKey: string,
-  localPlugin?: string,
-  localKey?: string,
+  plugin?: string,
+  key: string,
   required?: boolean,
 }
 

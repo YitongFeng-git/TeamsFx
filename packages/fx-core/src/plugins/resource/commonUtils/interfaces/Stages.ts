@@ -30,13 +30,11 @@ export abstract class Stage {
   protected inputConfig?: IConfig;
   protected outputConfig?: IConfig;
   protected ctx: PluginContext;
-  protected isLocalDebug: boolean;
   protected plugin: IPlugin;
   protected abstract event: IStageEvents;
 
-  constructor(ctx: PluginContext, plugin: IPlugin, isLocalDebug = false) {
+  constructor(ctx: PluginContext, plugin: IPlugin) {
     this.ctx = ctx;
-    this.isLocalDebug = isLocalDebug;
     this.plugin = plugin;
   }
 
@@ -110,29 +108,17 @@ export abstract class Stage {
     }
 
     this.inputConfig.forEach((configValue, key) => {
-      let value: string | undefined;
-      if (this.isLocalDebug && configValue.localKey) {
-        value = this.readConfigFromContext(configValue.localPlugin ? configValue.localPlugin : this.plugin.id, configValue.localKey, configValue.required);
-        configValue.value = value as string | undefined;
-      } else {
-        value = this.readConfigFromContext(configValue.remotePlugin ? configValue.remotePlugin : this.plugin.id, configValue.remoteKey, configValue.required);
-        configValue.value = value as string | undefined;
-      }
+      configValue.value = this.readConfigFromContext(configValue.plugin ? configValue.plugin : this.plugin.id, configValue.key, configValue.required);
     });
   }
 
-  protected saveConfig(islocalDebug = false): void {
+  protected saveConfig(): void {
     if (!this.outputConfig) {
       return;
     }
 
     this.outputConfig.forEach((configValue, key) => {
-      if (islocalDebug && configValue.localKey) {
-        this.saveConfigToContext(configValue.localKey, configValue.value);
-      } else {
-        this.saveConfigToContext(configValue.remoteKey, configValue.value);
-      }
-      this.ctx.logProvider?.info(`${key}: ${configValue.value}`);
+      this.saveConfigToContext(configValue.key, configValue.value);
     });
   }
 

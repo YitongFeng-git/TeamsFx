@@ -4,13 +4,12 @@
 import { Plugin, PluginContext, SystemError, UserError, err, LogLevel } from "@microsoft/teamsfx-api";
 import { AadResult, ResultFactory } from "./aadResult";
 import { Plugins } from "./constants/constants";
-import { UnhandledError } from "./errors";
 import { Provision } from "./stages/provision";
 import { Stage } from "../commonUtils/interfaces/Stages";
 
 export class AadAppForTeamsPlugin implements Plugin {
   public async provision(ctx: PluginContext): Promise<AadResult> {
-    const provisionRes = new Provision(ctx, false, Plugins.AADPlugin);
+    const provisionRes = new Provision(ctx, Plugins.AADPlugin);
     try {
       const res = await provisionRes.run();
       return res;
@@ -20,13 +19,7 @@ export class AadAppForTeamsPlugin implements Plugin {
   }
 
   public async localDebug(ctx: PluginContext): Promise<AadResult> {
-    const provisionRes = new Provision(ctx, true, Plugins.AADPlugin);
-    try {
-      const res = await provisionRes.run();
-      return res;
-    } catch (error) {
-      return this.returnError(provisionRes, error);
-    }
+    return ResultFactory.Success();
   }
 
   public setApplicationInContext(ctx: PluginContext, isLocalDebug = false): AadResult {

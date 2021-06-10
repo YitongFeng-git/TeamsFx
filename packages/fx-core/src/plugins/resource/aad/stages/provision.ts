@@ -10,12 +10,12 @@ import { provisionInputConfig, provisionOutputConfig } from "../constants/config
 import { Plugins } from "../constants/constants";
 
 export class Provision extends Stage {
-	event = this.isLocalDebug ? Events.LocalDebug : Events.Provision;
+	event = Events.Provision;
 	inputConfig = provisionInputConfig;
 	outputConfig = provisionOutputConfig;
 
-	constructor(ctx: PluginContext, plugin: IPlugin, isLocalDebug = false) {
-		super(ctx, plugin, isLocalDebug);
+	constructor(ctx: PluginContext, plugin: IPlugin) {
+		super(ctx, plugin);
 	}
 
 	public async run(): Promise<AadResult> {
