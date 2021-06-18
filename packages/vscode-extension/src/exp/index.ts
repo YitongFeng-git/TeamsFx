@@ -29,7 +29,7 @@ class ExperimentationTelemetry implements IExperimentationTelemetry {
 let expService: IExperimentationService;
 
 export function getExpService(): IExperimentationService {
-    return expService
+    return expService;
 }
 
 export async function initialize(context: vscode.ExtensionContext) {
