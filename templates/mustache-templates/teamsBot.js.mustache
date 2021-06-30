@@ -1,11 +1,8 @@
 {{#IS_ME}}
 const axios = require("axios");
 const querystring = require("querystring");
-const { TeamsActivityHandler, CardFactory } = require("botbuilder");
 {{/IS_ME}}
-{{#IS_BOT}}
-const { TeamsActivityHandler, ActionTypes, CardFactory } = require("botbuilder");
-{{/IS_BOT}}
+const { TeamsActivityHandler, CardFactory{{#IS_BOT}}, ActionTypes{{/IS_BOT}}} = require("botbuilder");
 
 class TeamsBot extends TeamsActivityHandler {
   {{#IS_BOT}}
